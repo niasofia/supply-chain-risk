@@ -3,58 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Supply Chain Risk Intelligence</title>
+    <title>Login - Global Supply Chain Risk Intelligence</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        body {
-            background-color: #f4f6f9;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 400px;
-            width: 100%;
-        }
+        body { background-color: #f4f6f9; }
+        .login-card { border-radius: 12px; border: none; }
     </style>
 </head>
-<body>
+<body class="d-flex align-items-center min-vh-100">
 
-    <div class="card login-card p-4 bg-white">
-        <div class="text-center mb-4">
-            <h3 class="fw-bold text-info">RISK INTELLIGENCE</h3>
-            <p class="text-muted small">Silakan login untuk mengakses dashboard pemantauan</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg login-card p-4">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="bi bi-shield-lock-fill text-primary display-4"></i>
+                            <h4 class="fw-bold mt-2">Login System</h4>
+                            <p class="text-muted small mb-0">Global Supply Chain Risk Intelligence</p>
+                        </div>
+
+                        <!-- Alert Jika Login Gagal -->
+                        @if($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show small" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ $errors->first() }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('login.post') }}" method="POST">
+                            @csrf
+                            
+                            <!-- Input Email/Username -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label fw-semibold">Email / Username</label>
+                                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="nama@email.com" required autofocus>
+                            </div>
+
+                            <!-- Input Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label fw-semibold">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="••••••••" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 fw-semibold">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        @if($errors->has('loginError'))
-            <div class="alert alert-danger border-0 py-2 small mb-3">
-                {{ $errors->first('loginError') }}
-            </div>
-        @endif
-
-        <form action="{{ route('login.post') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="email" class="form-label small fw-bold text-secondary">Alamat Email</label>
-                <input type="email" name="email" class="form-control" id="email" 
-                       placeholder="admin@gmail.com" value="{{ old('email') }}" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="form-label small fw-bold text-secondary">Password</label>
-                <input type="password" name="password" class="form-control" id="password" 
-                       placeholder="••••••••" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm">
-                Masuk ke Dashboard
-            </button>
-        </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
