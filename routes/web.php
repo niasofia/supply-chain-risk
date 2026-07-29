@@ -31,8 +31,8 @@ Route::middleware(['auth'])->group(function () {
     // Global Country Intelligence & Weather Monitoring (Open-Meteo & REST Countries)
     Route::get('/country-monitoring', [CountryController::class, 'index'])->name('country.monitoring');
 
-    // Logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    // Logout (Mendukung POST & GET Fallback)
+    Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
     /*
     |--------------------------------------------------------------------------
