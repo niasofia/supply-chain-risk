@@ -9,9 +9,10 @@
     <style>
         body { background-color: #f4f6f9; }
         .login-card { border-radius: 12px; border: none; }
+        .extra-small { font-size: 0.75rem; }
     </style>
 </head>
-<body class="d-flex align-items-center min-vh-100">
+<body class="d-flex align-items-center min-vh-100 py-4">
 
     <div class="container">
         <div class="row justify-content-center">
@@ -47,8 +48,33 @@
                                 <input type="password" name="password" id="password" class="form-control" placeholder="••••••••" required>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 fw-semibold">Login</button>
+                            <button type="submit" class="btn btn-primary w-100 fw-semibold mb-3">Login</button>
                         </form>
+
+                        <!-- Box Daftar Akun Demo -->
+                        <div class="pt-3 border-top">
+                            <strong class="small text-muted d-block mb-2 text-center">
+                                <i class="bi bi-person-badge me-1 text-primary"></i>Daftar Akun Terdaftar (Klik untuk Isi):
+                            </strong>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary text-start d-flex justify-content-between align-items-center" onclick="fillAccount('adminbaru@gmail.com', 'admin12345')">
+                                    <div>
+                                        <strong class="d-block small">👑 Admin (Administrator)</strong>
+                                        <span class="text-muted extra-small">adminbaru@gmail.com | Pass: admin12345</span>
+                                    </div>
+                                    <span class="badge bg-primary rounded-pill">Pilih Admin</span>
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-outline-secondary text-start d-flex justify-content-between align-items-center" onclick="fillAccount('userbaru@gmail.com', 'user12345')">
+                                    <div>
+                                        <strong class="d-block small">👤 User (Pengguna Biasa)</strong>
+                                        <span class="text-muted extra-small">userbaru@gmail.com | Pass: user12345</span>
+                                    </div>
+                                    <span class="badge bg-secondary rounded-pill">Pilih User</span>
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -56,5 +82,11 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function fillAccount(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+        }
+    </script>
 </body>
 </html>
