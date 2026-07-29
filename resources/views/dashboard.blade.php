@@ -33,6 +33,13 @@
                 <span class="fw-normal fs-6 text-white-50 ms-2">| Platform Monitoring Rantai Pasok Global</span>
             </a>
             <div class="d-flex align-items-center gap-3 ms-auto">
+                @if(auth()->check() && auth()->user()->role === 'admin')
+                    <span class="badge bg-warning text-dark px-3 py-2 fw-bold"><i class="bi bi-crown-fill me-1"></i>ADMINISTRATOR</span>
+                    <a href="{{ route('admin.users') }}" class="btn btn-sm btn-outline-info text-white"><i class="bi bi-people-fill me-1"></i>Kelola User</a>
+                    <a href="{{ route('admin.risks.index') }}" class="btn btn-sm btn-outline-warning text-white"><i class="bi bi-database-fill-gear me-1"></i>Kelola Risk Dataset</a>
+                @else
+                    <span class="badge bg-secondary px-3 py-2"><i class="bi bi-person-fill me-1"></i>PENGGUNA BIASA</span>
+                @endif
                 <span class="text-white small">Halo, <strong>{{ auth()->user()->name ?? 'Administrator' }}</strong></span>
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
@@ -43,6 +50,41 @@
     </nav>
 
     <div class="container-fluid p-4">
+
+        @if(auth()->check() && auth()->user()->role === 'admin')
+            <div class="card border-0 shadow-sm text-white mb-4 no-print" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-left: 5px solid #f59e0b !important;">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <span class="badge bg-warning text-dark mb-2 px-3 py-2 fw-bold">
+                                <i class="bi bi-crown-fill me-1"></i>PANEL KONTROL ADMINISTRATOR
+                            </span>
+                            <h5 class="fw-bold mb-1 text-white">Mode Akses: Administrator (Akses Penuh)</h5>
+                            <p class="text-white-50 mb-0 small">Anda memiliki hak akses eksklusif untuk memoderasi pengguna & mengedit dataset indikator risiko global.</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('admin.users') }}" class="btn btn-primary fw-bold">
+                                <i class="bi bi-people-fill me-2"></i>Kelola User ({{ \App\Models\User::count() }})
+                            </a>
+                            <a href="{{ route('admin.risks.index') }}" class="btn btn-warning fw-bold text-dark">
+                                <i class="bi bi-database-fill-gear me-2"></i>Kelola Risk Dataset
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @else
+            <div class="alert alert-info border-0 shadow-sm d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-person-badge-fill fs-4 text-info"></i>
+                    <div>
+                        <strong class="d-block text-dark">Mode Akses: Pengguna Biasa (Public Viewer)</strong>
+                        <span class="small text-muted">Anda dapat memantau risiko rantai pasok global, cuaca, indikator ekonomi, dan menjalankan simulasi analisis berita.</span>
+                    </div>
+                </div>
+                <span class="badge bg-secondary">User Mode</span>
+            </div>
+        @endif
 
         <div class="alert alert-warning border-0 shadow-sm d-flex align-items-center justify-content-between mb-4" id="alertBanner">
             <div>
