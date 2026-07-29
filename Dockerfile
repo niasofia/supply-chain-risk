@@ -21,7 +21,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 RUN composer install --no-dev --optimize-autoloader
-RUN npm ci && npm run build
+RUN npm install && npm run build
 
 RUN chmod +x /var/www/html/docker/entrypoint.sh
 

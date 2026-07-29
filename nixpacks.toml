@@ -7,7 +7,7 @@ nixPkgs = ["php82", "php82Extensions.pdo_mysql", "php82Extensions.pdo_sqlite", "
 [phases.build]
 cmds = [
     "composer install --no-dev --optimize-autoloader",
-    "npm ci",
+    "npm install",
     "npm run build"
 ]
 
