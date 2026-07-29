@@ -8,6 +8,7 @@ chmod -R 777 /var/www/html/storage /var/www/html/database /var/www/html/bootstra
 php artisan config:clear || true
 php artisan cache:clear || true
 php artisan migrate --force || true
+php artisan db:seed --force || true
 
 php-fpm -D
 
