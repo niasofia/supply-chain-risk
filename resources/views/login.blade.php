@@ -49,7 +49,10 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100 fw-semibold mb-3">Login</button>
-                        </form>
+                        <div class="text-center pt-2 pb-3">
+                            <span class="small text-muted">Belum punya akun? </span>
+                            <a href="{{ route('register') }}" class="small fw-bold text-primary text-decoration-none">Daftar Akun Baru</a>
+                        </div>
 
                         <!-- Box Daftar Akun Demo -->
                         <div class="pt-3 border-top">
