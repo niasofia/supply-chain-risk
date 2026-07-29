@@ -4,46 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Risk;
+use App\Models\Country; // Wajib memanggil Model Country
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Data Risiko dari Database
+        // 1. Data Risiko dari Database
         $risks = Risk::latest()->get();
 
-        // Data Pelabuhan Global untuk Peta (Leaflet.js)
-        $ports = [
-            [
-                'name' => 'Port of Shanghai',
-                'country' => 'China',
-                'lat' => 31.2304,
-                'lng' => 121.4737,
-                'status' => 'HIGH RISK (Kongesti Heavy)',
-            ],
-            [
-                'name' => 'Pelabuhan Tanjung Priok',
-                'country' => 'Indonesia',
-                'lat' => -6.1032,
-                'lng' => 106.8837,
-                'status' => 'MEDIUM RISK (Cuaca / Rob)',
-            ],
-            [
-                'name' => 'Port of Hamburg',
-                'country' => 'Germany',
-                'lat' => 53.5511,
-                'lng' => 9.9937,
-                'status' => 'HIGH RISK (Mogok Kerja)',
-            ],
-            [
-                'name' => 'Port of Rotterdam',
-                'country' => 'Netherlands',
-                'lat' => 51.9244,
-                'lng' => 4.4777,
-                'status' => 'LOW RISK (Operasional Normal)',
-            ],
-        ];
+        // 2. Mengambil seluruh data 100+ negara dari database (untuk dropdown)
+        $countries = Country::all();
+        if ($countries->isEmpty()) {
+            try {
+                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'CountrySeeder', '--force' => true]);
+                $countries = Country::all();
+            } catch (\Throwable $e) {
+                // Keep empty collection if seeding fails
+            }
+        }
 
-        return view('dashboard', compact('risks', 'ports'));
+        // 3. Mapping data port/pelabuhan untuk peta Leaflet
+        $ports = $countries->map(function($country) {
+            return [
+                'name' => $country->port_name,
+                'country' => $country->name,
+                'lat' => (float) $country->lat,
+                'lng' => (float) $country->lng,
+                'status' => 'NORMAL / AKTIF',
+            ];
+        });
+
+        // Kirim semua variabel ke view dashboard.blade.php
+        return view('dashboard', compact('risks', 'countries', 'ports'));
     }
 }

@@ -9,19 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::create('countries', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');          // Contoh: Germany, China, Indonesia
-        $table->string('iso_code', 3);   // Contoh: DEU, CHN, IDN
-        $table->string('currency');      // Contoh: EUR, CNY, IDR
-        $table->double('gdp')->nullable();
-        $table->double('inflation')->nullable();
-        $table->double('population')->nullable();
-        $table->timestamps();
-    });
-}
+    public function up(): void
+    {
+        Schema::create('countries', function (Blueprint $table) {
+            $table->id();
+            $table->string('code')->nullable();
+            $table->string('name');
+            $table->string('port_name')->nullable();
+            $table->decimal('lat', 10, 7)->nullable();
+            $table->decimal('lng', 10, 7)->nullable();
+            $table->string('iso_code', 3)->nullable();
+            $table->string('currency')->nullable();
+            $table->double('gdp')->nullable();
+            $table->double('inflation')->nullable();
+            $table->double('population')->nullable();
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

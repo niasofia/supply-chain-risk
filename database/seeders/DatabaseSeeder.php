@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Risk;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -11,55 +10,30 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. User Dummy (Admin & Operator/User)
+        // User Admin Baru
         User::updateOrCreate(
-            ['email' => 'admin@supplyrisk.com'],
+            ['email' => 'adminbaru@gmail.com'], 
             [
-                'name'     => 'System Admin',
-                'password' => Hash::make('admin123'),
+                'name'     => 'Administrator',
+                'password' => Hash::make('admin12345'),
                 'role'     => 'admin',
             ]
         );
 
+        // User Biasa Baru
         User::updateOrCreate(
-            ['email' => 'operator@supplyrisk.com'],
+            ['email' => 'userbaru@gmail.com'], 
             [
-                'name'     => 'Supply Chain Operator',
-                'password' => Hash::make('operator123'),
+                'name'     => 'User Biasa',
+                'password' => Hash::make('user12345'),
                 'role'     => 'user',
             ]
         );
 
-        // 2. Data Dummy Risk Indikator Pelabuhan
-        $dummyRisks = [
-            [
-                'location'   => 'Port of Shanghai (China)',
-                'category'   => 'Kongesti Logistik',
-                'indicator'  => 'Waktu Antre Kapal > 48 Jam akibat penumpukan kontainer',
-                'risk_level' => 'HIGH',
-            ],
-            [
-                'location'   => 'Pelabuhan Tanjung Priok (Indonesia)',
-                'category'   => 'Cuaca Ekstrem',
-                'indicator'  => 'Potensi Banjir Rob memicu hambatan akses truk kontainer',
-                'risk_level' => 'MEDIUM',
-            ],
-            [
-                'location'   => 'Port of Hamburg (Germany)',
-                'category'   => 'Operasional Alat',
-                'indicator'  => 'Mogok kerja serikat buruh pelabuhan berkala',
-                'risk_level' => 'HIGH',
-            ],
-            [
-                'location'   => 'Port of Rotterdam (Netherlands)',
-                'category'   => 'Kongesti Logistik',
-                'indicator'  => 'Kapasitas lapangan penumpukan (yard occupancy) mencapai 85%',
-                'risk_level' => 'LOW',
-            ],
-        ];
-
-        foreach ($dummyRisks as $riskData) {
-            Risk::create($riskData);
-        }
+        // Seed Data Negara & Kata Sentimen
+        $this->call([
+            CountrySeeder::class,
+            SentimentWordsSeeder::class,
+        ]);
     }
 }
