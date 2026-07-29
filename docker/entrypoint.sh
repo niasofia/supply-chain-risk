@@ -1,15 +1,18 @@
 #!/bin/sh
 
-if [ "$DB_CONNECTION" = "sqlite" ] || [ -z "$DB_CONNECTION" ]; then
-    mkdir -p /var/www/html/database
-    touch /var/www/html/database/database.sqlite
-fi
+mkdir -p /var/www/html/database
+touch /var/www/html/database/database.sqlite
 
-php artisan migrate --force
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+chmod -R 777 /var/www/html/storage /var/www/html/database /var/www/html/bootstrap/cache
 
-PORT="${PORT:-8080}"
-echo "Starting Laravel server on port $PORT..."
-exec php artisan serve --host=0.0.0.0 --port="$PORT"
+php artisan config:clear || true
+php artisan cache:clear || true
+php artisan migrate --force || true
+
+php-fpm -D
+
+PORT_TO_USE="${PORT:-8080}"
+sed -i "s/8080/${PORT_TO_USE}/g" /etc/nginx/sites-available/default
+
+echo "Starting Nginx on port ${PORT_TO_USE}..."
+exec nginx -g "daemon off;"

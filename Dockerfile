@@ -1,4 +1,4 @@
-FROM php:8.2-cli
+FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libsqlite3-dev \
+    nginx \
     nodejs \
     npm
 
@@ -22,6 +23,8 @@ COPY . /var/www/html
 
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
+
+COPY docker/nginx.conf /etc/nginx/sites-available/default
 
 RUN chmod +x /var/www/html/docker/entrypoint.sh
 
